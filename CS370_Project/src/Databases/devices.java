@@ -3,8 +3,8 @@ package Databases;
 public class devices {
     private String deviceLot;
     private String deviceMfrLot;
-    private int qty;
-    private String project;
+    private int devicesQty;
+    private String devicesProject;
 
     public String getDeviceLot() {
         return deviceLot;
@@ -14,11 +14,27 @@ public class devices {
         return deviceMfrLot;
     }
 
-    public int getQty() {
-        return qty;
+    public int getDevicesQty() {
+        return devicesQty;
     }
 
-    public String getProject() {
-        return project;
+    public String getDevicesProject() {
+        return devicesProject;
+    }
+    
+    public void setDeviceLot(String newDeviceLot) {
+        deviceLot = newDeviceLot;
+    }
+
+    public void setDeviceMfrLot(String newDeviceMfrLot) {
+        deviceMfrLot = newDeviceMfrLot;
+    }
+
+    public void setDevicesQty(int newDevicesQty) {
+        devicesQty = newDevicesQty;
+    }
+
+    public void setDevicesProject(String newDevicesProject) {
+        devicesProject = newDevicesProject;
     }
 }
