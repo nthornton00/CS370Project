@@ -1,6 +1,8 @@
 package Details;
 
 import java.sql.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 public class tester_details {
@@ -61,12 +63,12 @@ public class tester_details {
 				break;
 			}
 		}
-		
+		System.out.println("______________________________________________________________");
 		c.close();
 	}
 	
 	private void claim_tester(int employee_ID, String tester_name) throws Exception {
-Properties p = new Properties();
+		Properties p = new Properties();
 		
 		//Login
 		p.put("user", "root");
@@ -86,7 +88,8 @@ Properties p = new Properties();
             err.printStackTrace();
         }
 		
-		System.out.println("\nUPDATE SUCCESSFUL!\n");
+		System.out.println("UPDATE TABLE SUCCESSFUL!\n");
+		System.out.println("______________________________________________________________");
 	}
 	
 	//Was wayyyyy too lazy to implement a J-Unit Function
@@ -98,6 +101,8 @@ Properties p = new Properties();
 		test.claim_tester(7200, "Fanta");
 		test.claim_tester(7199, "Coca-Cola");
 		test.tester_details("Coca-Cola");
+		
+		current_staffing.current_shift();
 	}
 
 }
