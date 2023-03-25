@@ -2,21 +2,12 @@ package Details;
 
 import java.sql.*;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class tester_details {
-	private static final String dbClassname = "com.mysql.cj.jdbc.Driver";
-	
-	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/labmap";
-	
 	private void tester_details(String testerName) throws Exception {
-		Properties p = new Properties();
-		
-		//Login
-		p.put("user", "root");
-		p.put("password", "t3$t0573");
-		
 		//Initialize connection to the database
-		Connection c = DriverManager.getConnection(CONNECTION,p);
+		Connection c = establish_connection.connect();
 		
 		//Create the database statement
 		Statement s = c.createStatement();
@@ -67,14 +58,8 @@ public class tester_details {
 	}
 	
 	private void claim_tester(int employee_ID, String tester_name) throws Exception {
-		Properties p = new Properties();
-		
-		//Login
-		p.put("user", "root");
-		p.put("password", "t3$t0573");
-		
 		//Initialize connection to the database
-		Connection c = DriverManager.getConnection(CONNECTION,p);
+		Connection c = establish_connection.connect();
 		
 		String query = "UPDATE labmap.tester SET staff = ? WHERE tester_name = ?";
 		try (PreparedStatement updateUser = c.prepareStatement(query)) {
@@ -89,10 +74,13 @@ public class tester_details {
 		
 		System.out.println("UPDATE TABLE SUCCESSFUL!\n");
 		System.out.println("______________________________________________________________");
+		c.close();
 	}
 	
 	//Was wayyyyy too lazy to implement a J-Unit Function
 	public static void main(String[] args) throws Exception {
+		establish_connection.login();
+		
 		tester_details test = new tester_details();
 		test.tester_details("Fanta");
 		test.claim_tester(7198, "Fanta");
