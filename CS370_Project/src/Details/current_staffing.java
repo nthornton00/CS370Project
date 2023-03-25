@@ -41,7 +41,8 @@ public class current_staffing {
     	while(rsStaffing.next()) {
 			if (rsStaffing.getString("shift").equals(current_shift)) {
 				System.out.println("Employee Name: " + rsStaffing.getString("employee_name"));
-				System.out.println("Role: " + rsStaffing.getString("role") + "\n");
+				System.out.println("Role: " + rsStaffing.getString("role"));
+				System.out.println("Shift: " + rsStaffing.getString("shift") + "\n");
 			}
         }
     	System.out.println("______________________________________________________________");
