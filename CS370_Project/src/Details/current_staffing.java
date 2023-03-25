@@ -35,12 +35,14 @@ public class current_staffing {
 		
 		//Create the database statement
 		Statement s = c.createStatement();
-        
+		
 		//Initialize result set and classes for staffing database
-		ResultSet rsStaffing = s.executeQuery("select * from labmap.staffing");
+		ResultSet rsStaffing = s.executeQuery("SELECT * FROM labmap.staffing ORDER BY employee_firstname ASC");
     	while(rsStaffing.next()) {
 			if (rsStaffing.getString("shift").equals(current_shift)) {
-				System.out.println("Employee Name: " + rsStaffing.getString("employee_name"));
+				System.out.print("Employee Name: " + rsStaffing.getString("employee_firstname"));
+				System.out.println(" " + rsStaffing.getString("employee_lastname"));
+				System.out.println("Badge ID: " + rsStaffing.getInt("badge_ID"));
 				System.out.println("Role: " + rsStaffing.getString("role"));
 				System.out.println("Shift: " + rsStaffing.getString("shift") + "\n");
 			}
