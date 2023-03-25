@@ -24,14 +24,8 @@ public class current_staffing {
         else
         	current_shift = "Day";
         
-        Properties p = new Properties();
-		
-		//Login
-		p.put("user", "root");
-		p.put("password", "t3$t0573");
-		
-		//Initialize connection to the database
-		Connection c = DriverManager.getConnection(CONNECTION,p);
+        //Initialize connection to the database
+  		Connection c = establish_connection.connect();
 		
 		//Create the database statement
 		Statement s = c.createStatement();
@@ -47,6 +41,8 @@ public class current_staffing {
 				System.out.println("Shift: " + rsStaffing.getString("shift") + "\n");
 			}
         }
+    	
     	System.out.println("______________________________________________________________");
+    	c.close();
 	}
 }
