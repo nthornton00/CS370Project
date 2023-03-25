@@ -1,8 +1,6 @@
 package Details;
 
 import java.sql.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Properties;
 
 public class tester_details {
@@ -55,7 +53,8 @@ public class tester_details {
 				ResultSet rsStaffing = s.executeQuery("select * from labmap.staffing");
 				while(rsStaffing.next()) {
 					if (rsStaffing.getInt("badge_id") == staff) {
-						System.out.println("Employee Name: " + rsStaffing.getString("employee_name"));
+						System.out.print("Employee Name: " + rsStaffing.getString("employee_firstname"));
+						System.out.println(" " + rsStaffing.getString("employee_lastname"));
 						System.out.println("Role: " + rsStaffing.getString("role"));
 						break;
 					}
