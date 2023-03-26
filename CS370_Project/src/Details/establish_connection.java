@@ -5,34 +5,28 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class establish_connection {
-	private static final String dbClassname = "com.mysql.cj.jdbc.Driver";
-	
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/labmap";
 	
-	private static String username;
-	private static String password;
+	private static Properties login = new Properties();
 	
 	private static Connection c; //Connection
 	
-	static void login() throws Exception {		
-		Scanner myObj = new Scanner(System.in);
+	public static void login() throws Exception {		
+		try (Scanner myObj = new Scanner(System.in)) {
+			System.out.print("Enter username: ");
+			login.put("user", myObj.nextLine());
+			System.out.print("Enter password: ");
+			login.put("password", myObj.nextLine());
+		}
 		
-		System.out.print("Enter username: ");
-		username = myObj.nextLine();
-		System.out.print("Enter password: ");
-		password = myObj.nextLine();
 		System.out.println();
+		
+		System.out.println("LOGIN SUCCESSFUL");
 	}
 	
 	static Connection connect() throws Exception {
-		Properties p = new Properties();
-		
-		//Login
-		p.put("user", username);
-		p.put("password", password);
-		
 		//Initialize connection to the database
-		c = DriverManager.getConnection(CONNECTION,p);
+		c = DriverManager.getConnection(CONNECTION,login);
 		
 		return c;
 	}

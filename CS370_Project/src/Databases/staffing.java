@@ -5,24 +5,24 @@ class staffing {
     private int badgeID;
     private String role;
     
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
     public int getBadgeID() {
         return badgeID;
+    }
+    
+    public String getEmployeeName() {
+        return employeeName;
     }
 
     public String getRole() {
         return role;
     }
     
-    public void setEmployeeName(String newEmployeeName) {
-        employeeName = newEmployeeName;
-    }
-
     public void setBadgeID(int newBadgeID) {
         badgeID = newBadgeID;
+    }
+    
+    public void setEmployeeName(String newEmployeeName) {
+        employeeName = newEmployeeName;
     }
 
     public void setRole(String newRole) {

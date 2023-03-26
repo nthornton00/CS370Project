@@ -5,6 +5,7 @@ public class devices {
     private String deviceMfrLot;
     private int devicesQty;
     private String devicesProject;
+    private boolean isCheckedOut;
 
     public String getDeviceLot() {
         return deviceLot;
@@ -22,6 +23,10 @@ public class devices {
         return devicesProject;
     }
     
+    public boolean getIsCheckedOut() {
+    	return isCheckedOut;
+    }
+    
     public void setDeviceLot(String newDeviceLot) {
         deviceLot = newDeviceLot;
     }
@@ -36,5 +41,9 @@ public class devices {
 
     public void setDevicesProject(String newDevicesProject) {
         devicesProject = newDevicesProject;
+    }
+    
+    public void setIsCheckedOut(boolean checkedOutStatus) {
+    	isCheckedOut = checkedOutStatus;
     }
 }

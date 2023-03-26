@@ -1,19 +1,17 @@
 package Details;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Properties;
 
 public class current_staffing {
 	private static final String dbClassname = "com.mysql.cj.jdbc.Driver";
 	
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/labmap";
 	
-	static void current_shift() throws Exception {
+	public static void current_shift() throws Exception {
 		System.out.println("Current Staffing below:");
 		Calendar C = new GregorianCalendar();
         int hour = C.get( Calendar.HOUR_OF_DAY);
