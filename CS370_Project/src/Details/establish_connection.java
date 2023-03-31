@@ -24,7 +24,7 @@ public class establish_connection {
 		System.out.println("LOGIN SUCCESSFUL");
 	}
 	
-	static Connection connect() throws Exception {
+	public static Connection connect() throws Exception {
 		//Initialize connection to the database
 		c = DriverManager.getConnection(CONNECTION,login);
 		

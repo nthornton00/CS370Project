@@ -5,6 +5,7 @@ import Details.*;
 import javax.swing.*;
 
 public class initialize {
+	/*
 	public static void main(String[] args) {
 		try {
 			establish_connection.login();
@@ -16,4 +17,5 @@ public class initialize {
 			e.printStackTrace();
 		}
 	}
+	*/
 }

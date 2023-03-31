@@ -3,8 +3,9 @@ package Details;
 import java.sql.*;
 
 public class tester_details {
-	public String tester_name(String testerName) throws Exception {
-		String result = "???";
+	//This method grabs the tester info by the requested column and returns a string
+	public String fetchTesterInfo(String testerName, String column) throws Exception {
+		String result = "NONE";
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -13,42 +14,24 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsTester = s.executeQuery("select * from labmap.tester");
+		ResultSet rsTester = s.executeQuery("SELECT " + column +
+		" FROM labmap.tester WHERE tester_name='" + testerName + "'");
 		
-		while(rsTester.next()) {
-			if (rsTester.getString("tester_name").equals(testerName)) {
-				result = rsTester.getString("tester_name");
-			}
-		}
+		//Fetch the result
+		rsTester.next();
+		result = rsTester.getString(column);
+		
+		if (result == "null")
+			result = "NONE";
+		
+		//Close connection and return result
 		c.close();
-		System.out.println(result);
-		return result;
-	}
-
-	public String tester_prj(String testerName) throws Exception {
-		String result = "None";
-		
-		//Initialize connection to the database
-		Connection c = establish_connection.connect();
-		
-		//Create the database statement
-		Statement s = c.createStatement();
-		
-		//Initialize result set and classes for tester database
-		ResultSet rsTester = s.executeQuery("select * from labmap.tester");
-		
-		while(rsTester.next()) {
-			if (rsTester.getString("tester_name").equals(testerName)) {
-				result = rsTester.getString("tester_project");
-			}
-		}
-		c.close();
-		System.out.println(result);
 		return result;
 	}
 	
-	public String tester_peripheral(String testerName) throws Exception {
-		String result = "None";
+	//This method grabs the devices info by the requested column and returns a string
+	public String fetchDevicesInfo(String devices, String column) throws Exception {
+		String result = "NONE";
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -57,20 +40,27 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsTester = s.executeQuery("select * from labmap.tester");
+		ResultSet rsTester = s.executeQuery("SELECT " + column +
+		" FROM labmap.devices WHERE device_lot='" + devices + "'");
 		
-		while(rsTester.next()) {
-			if (rsTester.getString("tester_name").equals(testerName)) {
-				result = rsTester.getString("peripheral");
-			}
-		}
+		//Fetch the result
+		rsTester.next();
+		result = rsTester.getString(column);
+		
+		if (result == "null")
+			result = "NONE";
+				
+		//Close connection and return result
 		c.close();
-		System.out.println(result);
 		return result;
 	}
 	
-	public String tester_devices(String testerName) throws Exception {
-		String result = "None";
+	//This method grabs the staffing info by the requested column and returns a string
+	public String fetchStaffingInfo(int emplID, String column) throws Exception {
+		String result = "NONE";
+		
+		if (emplID == 0)
+			return result;
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -79,21 +69,24 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsTester = s.executeQuery("select * from labmap.tester");
+		ResultSet rsTester = s.executeQuery("SELECT " + column +
+		" FROM labmap.staffing WHERE badge_id='" + emplID + "'");
 		
-		while(rsTester.next()) {
-			if (rsTester.getString("tester_name").equals(testerName)) {
-				result = rsTester.getString("devices");
-			}
-		}
+		//Fetch the result
+		rsTester.next();
+		result = rsTester.getString(column);
+		
+		if (result == "null")
+			result = "NONE";
+		
+		//Close connection and return result
 		c.close();
-		System.out.println(result);
-		
 		return result;
 	}
 	
-	public String devices_mfr(String devices) throws Exception {
-		String result = "NA";
+	//This method determines if a device is checked out at the moment and returns a boolean
+	public static boolean checked_out(String devices) throws Exception {
+		int result = 0;
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -102,42 +95,21 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsDevices = s.executeQuery("select * from labmap.devices");
+		ResultSet rsDevices = s.executeQuery("SELECT checked_out FROM " +
+		"labmap.devices WHERE device_lot='" + devices + "'");
 		
-		while(rsDevices.next()) {
-			if (rsDevices.getString("device_lot").equals(devices)) {
-				result = rsDevices.getString("mfr_lot");
-			}
-		}
+		rsDevices.next();
+		result = rsDevices.getInt("checked_out");
+		
 		c.close();
-		System.out.println(result);
 		
-		return result;
+		if (result == 1)
+			return true;
+		else 
+			return false;
 	}
 	
-	public String devices_qty(String devices) throws Exception {
-		String result = "NA";
-		
-		//Initialize connection to the database
-		Connection c = establish_connection.connect();
-		
-		//Create the database statement
-		Statement s = c.createStatement();
-		
-		//Initialize result set and classes for tester database
-		ResultSet rsDevices = s.executeQuery("select * from labmap.devices");
-		
-		while(rsDevices.next()) {
-			if (rsDevices.getString("device_lot").equals(devices)) {
-				result = rsDevices.getString("device_qty");
-			}
-		}
-		c.close();
-		System.out.println(result);
-		
-		return result;
-	}
-	
+	//This method fetches the employee ID from the tester and returns an int
 	public int emplID(String testerName) throws Exception {
 		int result = 0;
 		
@@ -148,13 +120,11 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsTester = s.executeQuery("select * from labmap.tester");
+		ResultSet rsTester = s.executeQuery("SELECT staff FROM " +
+		"labmap.tester WHERE tester_name='" + testerName + "'");
 		
-		while(rsTester.next()) {
-			if (rsTester.getString("tester_name").equals(testerName)) {
-				result = rsTester.getInt("staff");
-			}
-		}
+		rsTester.next();
+		result = rsTester.getInt("staff");
 		
 		c.close();
 		System.out.println(result);
@@ -162,8 +132,12 @@ public class tester_details {
 		return result;
 	}
 	
+	//Returns employee full name from a badge ID
 	public String emplName(int emplID) throws Exception {
-		String result = "None";
+		String result = "NONE";
+		
+		if (emplID == 0)
+			return result;
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -172,43 +146,22 @@ public class tester_details {
 		Statement s = c.createStatement();
 		
 		//Initialize result set and classes for tester database
-		ResultSet rsStaffing = s.executeQuery("select * from labmap.staffing");
+		ResultSet rsStaffing = s.executeQuery("SELECT * FROM "+
+		"labmap.staffing WHERE badge_id='" + emplID + "'");
 		
-		while(rsStaffing.next()) {
-			if (rsStaffing.getInt("badge_id") == emplID) {
-				result = rsStaffing.getString("employee_firstname");
-				result += " " + rsStaffing.getString("employee_lastname");
-			}
-		}
+		//Combines the string from employee first name and last name
+		//to return the full name.
+		rsStaffing.next();
+		result = rsStaffing.getString("employee_firstname");
+		result += " " + rsStaffing.getString("employee_lastname");
+		
 		c.close();
 		System.out.println(result);
 		
 		return result;
 	}
 	
-	public String emplRole(int emplID) throws Exception {
-		String result = "None";
-		
-		//Initialize connection to the database
-		Connection c = establish_connection.connect();
-		
-		//Create the database statement
-		Statement s = c.createStatement();
-		
-		//Initialize result set and classes for tester database
-		ResultSet rsStaffing = s.executeQuery("select * from labmap.staffing");
-		
-		while(rsStaffing.next()) {
-			if (rsStaffing.getInt("badge_id") == emplID) {
-				result = rsStaffing.getString("role");
-			}
-		}
-		c.close();
-		System.out.println(result);
-		
-		return result;
-	}
-	
+	//Lets the currently logged in user claim the tester
 	public static void claim_tester(int employee_ID, String tester_name) throws Exception {
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -224,11 +177,7 @@ public class tester_details {
             err.printStackTrace();
         }
 		
-		System.out.println("UPDATE TABLE SUCCESSFUL!\n");
+		System.out.println("Successfully claimed tester!\n");
 		c.close();
 	}
-	
-	//Was wayyyyy too lazy to implement a J-Unit Function
-	
-
 }
