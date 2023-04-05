@@ -57,7 +57,7 @@ public class tester_detail_window extends JDialog {
 			contentPanel.add(lblTesterName, "cell 0 1,alignx left,aligny top");
 		}
 		{
-			JLabel lblPrj = new JLabel("Tester Project: " + test.fetchDevicesInfo(devices, "devices_project"));
+			JLabel lblPrj = new JLabel("Tester Project: " + test.fetchDevicesInfo(devices, "device_project"));
 			lblPrj.setVerticalAlignment(SwingConstants.TOP);
 			lblPrj.setHorizontalAlignment(SwingConstants.LEFT);
 			lblPrj.setFont(new Font("Calibri", Font.PLAIN, 14));
