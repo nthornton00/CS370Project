@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,6 +21,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class main_menu extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 782716336516707771L;
 	private JPanel contentPane;
 
 	/**
@@ -44,6 +50,20 @@ public class main_menu extends JFrame {
 	 * @throws Exception 
 	 */
 	public main_menu(int emplNum, String region) throws Exception {
+		Calendar C = new GregorianCalendar();
+        int hour = C.get( Calendar.HOUR_OF_DAY);
+        String current_shift;
+        String next_shift;
+        
+        if (hour > 19 || hour < 7) {
+        	current_shift = "Night";
+        	next_shift = "Day";
+        }
+        else {
+        	current_shift = "Day";
+        	next_shift = "Night";
+        }
+		
 		setTitle("CS370 Project Lab Map");
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -170,9 +190,31 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemCurrentShift = new JMenuItem("Current Shift");
 		menuShift.add(menuItemCurrentShift);
+		menuItemCurrentShift.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					staffing currStaff = new staffing(current_shift, region);
+					currStaff.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenuItem menuItemNextShift = new JMenuItem("Next Shift");
 		menuShift.add(menuItemNextShift);
+		menuItemNextShift.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					staffing currStaff = new staffing(next_shift, region);
+					currStaff.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenu menuAbout = new JMenu("Help");
 		menuBar.add(menuAbout);
@@ -181,10 +223,8 @@ public class main_menu extends JFrame {
 		menuAbout.add(menuItemAbout);
 		
 		while(rsTester.previous()) { //Utilizing same result list, go backwards to place all testers
-			System.out.println(rsTester.getString("region"));
 			if (rsTester.getString("region").equals(region)) {
 				String tester_name = rsTester.getString("tester_name");
-				System.out.println(tester_name);
 				JButton button = new JButton(tester_name);
 				int x = rsTester.getInt("x_coord");
 				int y = rsTester.getInt("y_coord");
