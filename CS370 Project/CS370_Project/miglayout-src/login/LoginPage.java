@@ -95,7 +95,7 @@ public class LoginPage {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String u_name = username.getText();
-				String p_word = password.getText();
+				char[] p_word = password.getPassword();
 				
 				checkLogin(u_name,p_word);
 				
@@ -133,7 +133,7 @@ public class LoginPage {
 		
 	}
 	
-	public static int checkLogin(String username, String password) {
+	public static int checkLogin(String username, char[] password) {
         int success = 0;
 
         try {
@@ -147,7 +147,7 @@ public class LoginPage {
             String query = "SELECT * FROM users WHERE username=? AND password=?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, String.valueOf(password));
 
             // Execute the SELECT query
             ResultSet rs = ps.executeQuery();
