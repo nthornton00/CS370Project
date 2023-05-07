@@ -133,8 +133,8 @@ public class LoginPage {
 		
 	}
 	
-	public static boolean checkLogin(String username, String password) {
-        boolean success = false;
+	public static int checkLogin(String username, String password) {
+        int success = 0;
 
         try {
             // Load the MySQL JDBC driver
@@ -156,10 +156,12 @@ public class LoginPage {
             if (rs.next()) {
                 // Login successful
                 JOptionPane.showMessageDialog(null, "Login Successful");
+                success = 1;
 
             } else {
                 // Login unsuccessful
                 JOptionPane.showMessageDialog(null, "Login Unsuccessful");
+                success = -1;
             }
 
             // Close the database connection and resources
