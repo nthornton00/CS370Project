@@ -34,7 +34,9 @@ public class main_menu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					establish_connection.login();
+					login_page.startLogin();
+					//establish_connection.login();
+					
 					main_menu frame = new main_menu(7198, "San Diego");
 					frame.setVisible(true);
 				} catch (Exception e) {

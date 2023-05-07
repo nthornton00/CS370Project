@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Properties;
 import java.util.Scanner;
 
+
 public class establish_connection {
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/labmap";
 	
