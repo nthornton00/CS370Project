@@ -12,7 +12,8 @@ public class establish_connection {
 	
 	private static Connection c; //Connection
 	
-	public static void login() throws Exception {		
+	public static void login() throws Exception {	
+		/*
 		try (Scanner myObj = new Scanner(System.in)) {
 			System.out.print("Enter username: ");
 			login.put("user", myObj.nextLine());
@@ -23,11 +24,12 @@ public class establish_connection {
 		System.out.println();
 		
 		System.out.println("LOGIN SUCCESSFUL");
+		*/
 	}
 	
 	public static Connection connect() throws Exception {
 		//Initialize connection to the database
-		c = DriverManager.getConnection(CONNECTION,login);
+		c = DriverManager.getConnection(CONNECTION,"root","t3$t0573");
 		
 		return c;
 	}
