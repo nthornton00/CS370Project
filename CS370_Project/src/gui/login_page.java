@@ -46,10 +46,9 @@ public class login_page {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public static int startLogin() throws Exception {
+	public static void startLogin() throws Exception {
 		establish_connection.login();
 		initialize();
-		return badge_id;
 	}
 
 	/**
