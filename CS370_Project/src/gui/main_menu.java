@@ -33,11 +33,8 @@ public class main_menu extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				int badge_id = 0;
 				try {
-					badge_id = login_page.startLogin();
-					main_menu frame = new main_menu(badge_id, "San Diego");
-					frame.setVisible(true);
+					login_page.startLogin();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -249,4 +246,3 @@ public class main_menu extends JFrame {
 		rsTester.beforeFirst();
 	}
 }
-
