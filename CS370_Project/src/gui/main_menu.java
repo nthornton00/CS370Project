@@ -33,11 +33,10 @@ public class main_menu extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				int badge_id = 0;
 				try {
-					login_page.startLogin();
-					//establish_connection.login();
-					
-					main_menu frame = new main_menu(7198, "San Diego");
+					badge_id = login_page.startLogin();
+					main_menu frame = new main_menu(badge_id, "San Diego");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
