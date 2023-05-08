@@ -122,12 +122,34 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemActiveRequests = new JMenuItem("Active Requests");
 		menuMaintenance.add(menuItemActiveRequests);
-		
-		JMenuItem menuItemSendRequests = new JMenuItem("Send Requests");
-		menuMaintenance.add(menuItemSendRequests);
+		menuItemActiveRequests.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					maintenance_active maintActive = new maintenance_active();
+					maintActive.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenuItem menuItemHistoryLog = new JMenuItem("History Log");
 		menuMaintenance.add(menuItemHistoryLog);
+		menuItemHistoryLog.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					maintenance_log maintLog = new maintenance_log();
+					maintLog.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
+		
+		JMenuItem menuItemSendRequests = new JMenuItem("Send Requests");
+		menuMaintenance.add(menuItemSendRequests);
 		
 		JMenu regionMenuBar = new JMenu("Change Region");
 		menuBar.add(regionMenuBar);
