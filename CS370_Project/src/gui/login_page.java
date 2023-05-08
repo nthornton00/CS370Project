@@ -6,7 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
+import gui.main_menu;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -28,6 +29,7 @@ public class login_page {
 	private static JTextField usernameField;
 	private static JPasswordField passwordField;
 	public static int badge_id = 0;
+	public static String region = "";
 
 	/**
 	 * Launch the application.
@@ -160,10 +162,32 @@ public class login_page {
 
             // Check if the SELECT query returned a result
             if (rs.next()) {
+            	//Login successful
             	JOptionPane.showMessageDialog(null, "Login Successful");
             	badge_id = rs.getInt("badge_ID");
-                // Login successful
-                //this.dispose();
+            	
+            	// Create a PreparedStatement to execute the SELECT query for the tester table
+                String testerQuery = "SELECT * FROM labmap.tester WHERE staff=?";
+                PreparedStatement testerPs = c.prepareStatement(testerQuery);
+                testerPs.setInt(1, badge_id);
+            	
+                // Execute the SELECT query for the tester table
+                ResultSet testerRs = testerPs.executeQuery();
+
+                // Retrieve region of employee who just logged in
+                if (testerRs.next()) {
+                    region = testerRs.getString("region");
+                }
+                
+            	//Close login window
+            	 SwingUtilities.invokeLater(() -> {
+            	        Window window = SwingUtilities.getWindowAncestor(usernameField);
+            	        window.dispose();
+            	    });
+                
+                //Open main menu window
+                main_menu menu = new main_menu(badge_id, region);
+                menu.setVisible(true);
 
             } else {
                 // Login unsuccessful
