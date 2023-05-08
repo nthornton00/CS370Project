@@ -21,9 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class main_menu extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 782716336516707771L;
 	private JPanel contentPane;
 
@@ -108,6 +105,17 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemLogout = new JMenuItem("Logout");
 		menuAccount.add(menuItemLogout);
+		menuItemLogout.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					login_page.startLogin();
+					dispose();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenu menuMaintenance = new JMenu("Maintenance");
 		menuBar.add(menuMaintenance);
