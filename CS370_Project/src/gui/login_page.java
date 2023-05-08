@@ -58,7 +58,6 @@ public class login_page {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login_page window = new login_page();
 					login_page.mainJFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -130,12 +129,13 @@ public class login_page {
 		loginButton.setBounds(71, 141, 134, 42);
 		bottomPanel.add(loginButton);
 		
-		JButton createAccountButton = new JButton("Create Account ");
+		JButton createAccountButton = new JButton("Exit");
 		createAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
-		createAccountButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		createAccountButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		createAccountButton.setBounds(266, 142, 134, 42);
 		bottomPanel.add(createAccountButton);
 	}
@@ -177,7 +177,9 @@ public class login_page {
 
             } else {
                 // Login unsuccessful
-                JOptionPane.showMessageDialog(null, "Login Unsuccessful");
+                JOptionPane.showMessageDialog(null, "Login Unsuccessful,\nplease try again!");
+                mainJFrame.dispose();
+                initialize();
             }
 
             // Close the database connection and resources
