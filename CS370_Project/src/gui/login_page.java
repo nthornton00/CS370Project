@@ -2,12 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-//import net.miginfocom.swing.MigLayout;
-import gui.main_menu;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,7 +11,7 @@ import Details.establish_connection;
 
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -164,20 +159,12 @@ public class login_page {
             if (rs.next()) {
             	//Login successful
             	JOptionPane.showMessageDialog(null, "Login Successful");
+            	// Retrieve badge_id of employee who just logged in
             	badge_id = rs.getInt("badge_ID");
-            	
-            	// Create a PreparedStatement to execute the SELECT query for the tester table
-                String testerQuery = "SELECT * FROM labmap.tester WHERE staff=?";
-                PreparedStatement testerPs = c.prepareStatement(testerQuery);
-                testerPs.setInt(1, badge_id);
-            	
-                // Execute the SELECT query for the tester table
-                ResultSet testerRs = testerPs.executeQuery();
-
-                // Retrieve region of employee who just logged in
-                if (testerRs.next()) {
-                    region = testerRs.getString("region");
-                }
+            	// Retrieve region of employee who just logged in
+            	region = rs.getString("region");
+                
+                System.out.println(region);
                 
             	//Close login window
             	 SwingUtilities.invokeLater(() -> {
