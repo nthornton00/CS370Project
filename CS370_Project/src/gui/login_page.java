@@ -1,17 +1,18 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-import javax.swing.JFrame;
+import net.miginfocom.swing.MigLayout;
+
 import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
+
+import Details.establish_connection;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,10 +23,11 @@ import java.awt.event.ActionEvent;
 
 public class login_page {
 
-	private static JFrame mainJFrame;
+	private static JDialog mainJFrame;
 	private final static JPanel topPanel = new JPanel();
 	private static JTextField usernameField;
 	private static JPasswordField passwordField;
+	public static int badge_id = 0;
 
 	/**
 	 * Launch the application.
@@ -47,15 +49,16 @@ public class login_page {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public static void startLogin() throws Exception {
+	public static int startLogin() throws Exception {
+		establish_connection.login();
 		initialize();
+		return badge_id;
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private static void initialize() throws Exception {
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -68,11 +71,12 @@ public class login_page {
 		});
 		
 		
-		mainJFrame = new JFrame();
+		mainJFrame = new JDialog();
 		mainJFrame.setTitle("Lab Map");
+		mainJFrame.setResizable(false); //Do not allow the user to resize the GUI
 		mainJFrame.setBackground(new Color(255, 255, 255));
 		mainJFrame.setBounds(100, 100, 500, 530);
-		mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainJFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		mainJFrame.getContentPane().setLayout(null);
 		topPanel.setBackground(new Color(192, 192, 192));
 		topPanel.setBounds(0, 0, 484, 265);
@@ -115,7 +119,14 @@ public class login_page {
 				String username = usernameField.getText();
 				char[] password = passwordField.getPassword();
 				
-				checkLogin(username,password);
+				try {
+					checkLogin(username,password);
+					System.out.println(badge_id);
+					mainJFrame.dispose();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -133,19 +144,14 @@ public class login_page {
 		bottomPanel.add(createAccountButton);
 	}
 	
-	public static boolean checkLogin(String username, char[] password) {
-        boolean success = false;
-
+	public static void checkLogin(String username, char[] password) throws Exception {
         try {
-            // Load the MySQL JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Connect to the MySQL database
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/labmap", "root", "csusm555");
+        	//Initialize connection to the database
+    		Connection c = establish_connection.connect();
 
             // Create a PreparedStatement to execute the SELECT query
-            String query = "SELECT * FROM users WHERE username=? AND password=?";
-            PreparedStatement ps = conn.prepareStatement(query);
+            String query = "SELECT * FROM labmap.staffing WHERE login_id=? AND password=?";
+            PreparedStatement ps = c.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, String.valueOf(password));
 
@@ -154,8 +160,10 @@ public class login_page {
 
             // Check if the SELECT query returned a result
             if (rs.next()) {
+            	JOptionPane.showMessageDialog(null, "Login Successful");
+            	badge_id = rs.getInt("badge_ID");
                 // Login successful
-                //window.dispose();
+                //this.dispose();
 
             } else {
                 // Login unsuccessful
@@ -165,13 +173,11 @@ public class login_page {
             // Close the database connection and resources
             rs.close();
             ps.close();
-            conn.close();
+            c.close();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        return success;
     }
 }
