@@ -21,9 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class main_menu extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 782716336516707771L;
 	private JPanel contentPane;
 
@@ -34,9 +31,7 @@ public class main_menu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					establish_connection.login();
-					main_menu frame = new main_menu(7198, "San Diego");
-					frame.setVisible(true);
+					login_page.startLogin();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -110,18 +105,51 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemLogout = new JMenuItem("Logout");
 		menuAccount.add(menuItemLogout);
+		menuItemLogout.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					login_page.startLogin();
+					dispose();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenu menuMaintenance = new JMenu("Maintenance");
 		menuBar.add(menuMaintenance);
 		
 		JMenuItem menuItemActiveRequests = new JMenuItem("Active Requests");
 		menuMaintenance.add(menuItemActiveRequests);
-		
-		JMenuItem menuItemSendRequests = new JMenuItem("Send Requests");
-		menuMaintenance.add(menuItemSendRequests);
+		menuItemActiveRequests.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					maintenance_active maintActive = new maintenance_active();
+					maintActive.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenuItem menuItemHistoryLog = new JMenuItem("History Log");
 		menuMaintenance.add(menuItemHistoryLog);
+		menuItemHistoryLog.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					maintenance_log maintLog = new maintenance_log();
+					maintLog.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
+		
+		JMenuItem menuItemSendRequests = new JMenuItem("Send Requests");
+		menuMaintenance.add(menuItemSendRequests);
 		
 		JMenu regionMenuBar = new JMenu("Change Region");
 		menuBar.add(regionMenuBar);
@@ -248,4 +276,3 @@ public class main_menu extends JFrame {
 		rsTester.beforeFirst();
 	}
 }
-
