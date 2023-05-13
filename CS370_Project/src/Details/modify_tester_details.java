@@ -2,10 +2,14 @@ package Details;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class modify_tester_details {
 	public boolean tester_devices(String tester_name, String devices) throws Exception {
-		if (tester_details.checked_out(devices))
+		if (tester_details.checked_out(devices)) {
+			JOptionPane.showMessageDialog(null, "Devices are already checked out!");
 			return false;
+		}
 		
 		//Initialize connection to the database
 		Connection c = establish_connection.connect();
@@ -40,18 +44,21 @@ public class modify_tester_details {
         }
 		
 		String check_out = "UPDATE labmap.devices SET checked_out = ? WHERE device_lot = ?";
-		try (PreparedStatement checkOut = c.prepareStatement(check_out)) {
-			checkOut.setInt(1, 1);
-			checkOut.setObject(2, devices);
-			checkOut.execute();
-		} catch(Exception err) {
-            System.out.println("An error has occurred.");
-            System.out.println("See full details below.");
-            err.printStackTrace();
-        }
+		if (!devices.equals("NONE")) {
+			try (PreparedStatement checkOut = c.prepareStatement(check_out)) {
+				checkOut.setInt(1, 1);
+				checkOut.setObject(2, devices);
+				checkOut.execute();
+			} catch(Exception err) {
+	            System.out.println("An error has occurred.");
+	            System.out.println("See full details below.");
+	            err.printStackTrace();
+	        }
+		}
 		
 		System.out.println("UPDATE TABLE SUCCESSFUL!\n");
 		c.close();
+		
 		return true;
 	}
 	

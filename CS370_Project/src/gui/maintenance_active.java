@@ -20,7 +20,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import Details.establish_connection;
+import Details.maintenance;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class maintenance_active extends JDialog {
@@ -28,7 +31,7 @@ public class maintenance_active extends JDialog {
 	DefaultTableModel table = new DefaultTableModel();
 	Container cnt = this.getContentPane();
 	JTable jtbl = new JTable(table);
-	private JTextField textField;
+	private JTextField woTextField;
 
 	/**
 	 * Create the frame.
@@ -41,14 +44,12 @@ public class maintenance_active extends JDialog {
 		table.addColumn("Peripheral");
 		table.addColumn("Staus");
 		table.addColumn("Submit Time");
-		table.addColumn("Complete Time");
 		
-		jtbl.getColumnModel().getColumn(0).setMaxWidth(40);
-		jtbl.getColumnModel().getColumn(1).setMaxWidth(80);
-		jtbl.getColumnModel().getColumn(2).setMaxWidth(80);
-		jtbl.getColumnModel().getColumn(3).setMaxWidth(80);
-		jtbl.getColumnModel().getColumn(4).setMaxWidth(160);
-		jtbl.getColumnModel().getColumn(5).setMaxWidth(160);
+		jtbl.getColumnModel().getColumn(0).setMaxWidth(60);
+		jtbl.getColumnModel().getColumn(1).setMaxWidth(110);
+		jtbl.getColumnModel().getColumn(2).setMaxWidth(110);
+		jtbl.getColumnModel().getColumn(3).setMaxWidth(110);
+		jtbl.getColumnModel().getColumn(4).setMaxWidth(210);
 		
 		//Create dialog window
 		setTitle("Maintenance Information");
@@ -63,7 +64,7 @@ public class maintenance_active extends JDialog {
   		Statement s = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
   		
   		//Initialize result set and classes for tester database based in the selected region
-  		ResultSet rsMaintLog = s.executeQuery("SELECT * FROM labmap.maintenance WHERE status='Closed'");
+  		ResultSet rsMaintLog = s.executeQuery("SELECT * FROM labmap.maintenance WHERE status='Active'");
 		
 		while (rsMaintLog.next()) {
   			String id = String.valueOf(rsMaintLog.getInt("wo_id"));
@@ -71,14 +72,10 @@ public class maintenance_active extends JDialog {
   			String peripheral = rsMaintLog.getString("peripheral");
   			String status = rsMaintLog.getString("status");
   			String submit = rsMaintLog.getString("submitted_time");
-  			String complete = rsMaintLog.getString("date_finished");
   			
   			
-  			table.addRow(new Object[] {id, tester, peripheral, status, submit, complete});
+  			table.addRow(new Object[] {id, tester, peripheral, status, submit});
   		}
-		
-		//for (int i = 0; i < 32; i++)
-			//table.addRow(new Object[] {"TEST", "TEST", "TEST", "TEST"});
 
 		JScrollPane pg = new JScrollPane(jtbl);
 		pg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -91,30 +88,44 @@ public class maintenance_active extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnViewWorkOrder = new JButton("View Work Order");
-				btnViewWorkOrder.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
 				{
 					JLabel lblNewLabel = new JLabel("Work Order:");
 					buttonPane.add(lblNewLabel);
 				}
 				{
-					textField = new JTextField();
-					textField.setText("");
-					buttonPane.add(textField);
-					textField.setColumns(20);
+					woTextField = new JTextField();
+					woTextField.setText("");
+					buttonPane.add(woTextField);
+					woTextField.setColumns(20);
 				}
+				JButton btnViewWorkOrder = new JButton("View Work Order");
+				btnViewWorkOrder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							String woID = woTextField.getText();
+							maintenance modify_request = new maintenance();
+							try {
+								//modify_request.modify_request(woID);
+								dispose();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
 				btnViewWorkOrder.setActionCommand("Cancel");
 				buttonPane.add(btnViewWorkOrder);
 			}
 			{
-				JButton okButton = new JButton("Cancel");
-				okButton.setActionCommand("Cancel");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-				okButton.addActionListener(new ActionListener() {
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+				getRootPane().setDefaultButton(cancelButton);
+				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							dispose();

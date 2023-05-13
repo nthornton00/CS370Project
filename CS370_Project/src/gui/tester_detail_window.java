@@ -29,7 +29,7 @@ public class tester_detail_window extends JDialog {
 		setFont(new Font("Corbel Light", Font.PLAIN, 14));
 
 		setTitle("Modify Tester Details");
-		setBounds(100, 100, 360, 370);
+		setBounds(100, 100, 400, 370);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(221, 229, 237));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -98,7 +98,6 @@ public class tester_detail_window extends JDialog {
 			lblStaff.setFont(new Font("Calibri", Font.PLAIN, 14));
 			contentPanel.add(lblStaff, "cell 0 7");
 		}
-		
 				
 		String[] peripherals = {"", "HA7200", "HA7300", "M4841", "M4872", "M4171", "M6242", "Manual Socket"};
 		{
@@ -163,6 +162,37 @@ public class tester_detail_window extends JDialog {
 						}
 					}
 				});
+				{
+					JButton returnDevsBtn = new JButton("Return Devices");
+					returnDevsBtn.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if (!devices.equals("NONE")) {
+								modify_tester_details modTester = new modify_tester_details();
+								try {
+									modTester.tester_devices(tester_name, "NONE");
+									refreshWindow(tester_name, emplNum);
+									JOptionPane.showMessageDialog(null, "Devices has been returned!");
+									dispose();
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null, "Nothing was changed");
+									e1.printStackTrace();
+								}
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "No devices at tester!");
+								try {
+									refreshWindow(tester_name, emplNum);
+									dispose();
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+						}
+					});
+					buttonPane.add(returnDevsBtn);
+				}
 				buttonPane.add(claimTesterBtn);
 			}
 			{
@@ -191,7 +221,10 @@ public class tester_detail_window extends JDialog {
 								tester_detail_window detail_window = new tester_detail_window(tester_name, emplNum);
 								detail_window.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 								detail_window.setVisible(true);
-								JOptionPane.showMessageDialog(null, "Updated devices and peripheral");
+								if (newPeripheral.equals(""))
+									JOptionPane.showMessageDialog(null, "Updated devices!");
+								else
+									JOptionPane.showMessageDialog(null, "Updated devices and peripheral!");
 								dispose();
 							}
 							else {

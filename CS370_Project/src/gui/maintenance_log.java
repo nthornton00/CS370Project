@@ -80,9 +80,6 @@ public class maintenance_log extends JDialog {
   			
   			table.addRow(new Object[] {id, tester, peripheral, status, submit, complete});
   		}
-		
-		//for (int i = 0; i < 32; i++)
-			//table.addRow(new Object[] {"TEST", "TEST", "TEST", "TEST"});
 
 		JScrollPane pg = new JScrollPane(jtbl);
 		pg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

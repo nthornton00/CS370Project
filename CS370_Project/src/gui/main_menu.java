@@ -150,6 +150,17 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemSendRequests = new JMenuItem("Send Requests");
 		menuMaintenance.add(menuItemSendRequests);
+		menuItemSendRequests.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					submit_request submitRequest = new submit_request(emplNum);
+					submitRequest.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenu regionMenuBar = new JMenu("Change Region");
 		menuBar.add(regionMenuBar);

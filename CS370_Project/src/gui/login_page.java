@@ -167,9 +167,9 @@ public class login_page {
                 
             	//Close login window
             	 SwingUtilities.invokeLater(() -> {
-            	        Window window = SwingUtilities.getWindowAncestor(usernameField);
-            	        window.dispose();
-            	    });
+        	        Window window = SwingUtilities.getWindowAncestor(usernameField);
+        	        window.dispose();
+        	    });
                 
                 //Open main menu window
                 main_menu menu = new main_menu(badge_id, region);
