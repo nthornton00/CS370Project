@@ -20,13 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
-public class maintenance_modify extends JDialog {
+public class maintenance_history extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	public maintenance_modify(int wo_id) throws Exception {
+	public maintenance_history(int wo_id) throws Exception {
 		setResizable(false);
 		setTitle("Maintenance - Work Order ID #" + wo_id);
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 450, 250);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -39,7 +39,7 @@ public class maintenance_modify extends JDialog {
 		contentPanel.add(lblNewLabel);
 		{
 			JLabel lblPeripheral = new JLabel("Peripheral: " + maint.fetchMaintInfo(wo_id, "peripheral"));
-			lblPeripheral.setBounds(215, 11, 209, 14);
+			lblPeripheral.setBounds(215, 11, 200, 14);
 			contentPanel.add(lblPeripheral);
 		}
 		{
@@ -48,20 +48,12 @@ public class maintenance_modify extends JDialog {
 			contentPanel.add(lblSubmitTime);
 		}
 		
-		//Status
 		{
-			JLabel lblStatus = new JLabel("Status: ");
-			lblStatus.setBounds(215, 36, 60, 14);
+			JLabel lblStatus = new JLabel("Finish Time: " + maint.fetchMaintInfo(wo_id, "date_finished"));
+			lblStatus.setBounds(215, 36, 200, 14);
 			contentPanel.add(lblStatus);
 		}
-		String[] statusOptions = {"Active", "Closed"};
 		
-		JComboBox statusCB = new JComboBox(statusOptions);
-		statusCB.setBounds(261, 32, 82, 22);
-		contentPanel.add(statusCB);
-		String status = (String) statusCB.getItemAt(statusCB.getSelectedIndex());
-		
-		//Current Remarks
 		{
 			JTextArea currentRemarksTextArea = new JTextArea(maint.fetchMaintInfo(wo_id, "description"));
 			currentRemarksTextArea.setEditable(false);
@@ -76,51 +68,13 @@ public class maintenance_modify extends JDialog {
 			contentPanel.add(lblCurrentRemarks);
 		}
 		
-		//Update Remarks
-		JTextArea updateDescriptionTextArea = new JTextArea();
-		updateDescriptionTextArea.setBounds(10, 200, 414, 117);
-		contentPanel.add(updateDescriptionTextArea);
-		updateDescriptionTextArea.setLineWrap(true);
-		updateDescriptionTextArea.setWrapStyleWord(true);
-		
-		{
-			JLabel lblUpdateDescription = new JLabel("Update Remarks: ");
-			lblUpdateDescription.setBounds(10, 186, 414, 14);
-			contentPanel.add(lblUpdateDescription);
-		}
-		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						try {
-							String description = updateDescriptionTextArea.getText();
-							System.out.println(description + "\n" + status);
-							if (description.equals("") && status.equals("Active"))
-								dispose();
-							else {
-								maint.modify_description(wo_id, description);
-								if (status.equals("Closed"))
-									maint.set_status_closed(wo_id);
-								dispose();
-							}
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				});
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				JButton cancelButton = new JButton("OK");
+				cancelButton.setActionCommand("OK");
 				buttonPane.add(cancelButton);
 				getRootPane().setDefaultButton(cancelButton);
 				cancelButton.addActionListener(new ActionListener() {

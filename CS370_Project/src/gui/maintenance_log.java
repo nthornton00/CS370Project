@@ -13,9 +13,12 @@ import java.sql.Statement;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +36,7 @@ public class maintenance_log extends JDialog {
 	DefaultTableModel table = new DefaultTableModel();
 	Container cnt = this.getContentPane();
 	JTable jtbl = new JTable(table);
+	private JTextField woTextField;
 
 	/**
 	 * Create the frame.
@@ -80,6 +84,14 @@ public class maintenance_log extends JDialog {
   			
   			table.addRow(new Object[] {id, tester, peripheral, status, submit, complete});
   		}
+		
+		ResultSet rsWO = s.executeQuery("SELECT MAX(wo_id) AS maxWO FROM labmap.maintenance");
+		
+		rsWO.next();
+		
+		int maxWO = rsWO.getInt("maxWO"); //Grabs next work order number
+		
+		c.close(); //Close connection
 
 		JScrollPane pg = new JScrollPane(jtbl);
 		pg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -91,6 +103,36 @@ public class maintenance_log extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JLabel lblNewLabel = new JLabel("Work Order:");
+				buttonPane.add(lblNewLabel);
+			}
+			{
+				woTextField = new JTextField();
+				woTextField.setText("");
+				buttonPane.add(woTextField);
+				woTextField.setColumns(20);
+			}
+			JButton btnViewWorkOrder = new JButton("View Work Order");
+			buttonPane.add(btnViewWorkOrder);
+			btnViewWorkOrder.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						String woIDString = woTextField.getText();
+						int woID = Integer.parseInt(woIDString); 
+						if (woID > maxWO || woID < 0) {
+							JOptionPane.showMessageDialog(null, "This work order does not exist!");
+						}
+						else {
+							maintenance_history historyLog = new maintenance_history(woID);
+							historyLog.setVisible(true);
+						}
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Please input valid integer!");
+					}
+				}
+			});
 			{
 				JButton closeButton = new JButton("Close");
 				closeButton.setActionCommand("Close");

@@ -11,7 +11,6 @@ import java.awt.Color;
 public class userInfo extends JFrame {
 	private JTextField usernameTextField;
 	private JTextField roleTextField;
-	private JTextField projectTextField;
 	private JLabel idLabel;
 	private JTextField idTextField;
 

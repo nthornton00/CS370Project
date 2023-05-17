@@ -32,6 +32,7 @@ public class submit_request extends JDialog {
 	 * @throws Exception 
 	 */
 	public submit_request(int emplNum) throws Exception {
+		setResizable(false);
 		setTitle("Submit Maintenance Request");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -40,16 +41,14 @@ public class submit_request extends JDialog {
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Tester:");
-		lblNewLabel.setBounds(10, 11, 60, 21);
+		lblNewLabel.setBounds(10, 11, 84, 21);
 		contentPanel.add(lblNewLabel);
 		
 		JComboBox testerCB = new JComboBox(new Object[]{});
-		testerCB.setBounds(70, 10, 354, 22);
+		testerCB.setBounds(94, 10, 330, 22);
 		contentPanel.add(testerCB);
 		
-		try {
-			testerCB.addItem("");
-			
+		try {			
 			//Initialize connection to the database
 			Connection c = establish_connection.connect();
 			
@@ -71,13 +70,13 @@ public class submit_request extends JDialog {
 		
 		
 		JLabel lblPeripheral = new JLabel("Peripheral:");
-		lblPeripheral.setBounds(10, 43, 60, 22);
+		lblPeripheral.setBounds(10, 43, 84, 22);
 		contentPanel.add(lblPeripheral);
 		
-		String[] peripherals = {"", "HA7200", "HA7300", "M4841", "M4872", "M4171", "M6242", "Manual Socket"};
+		String[] peripherals = {"HA7200", "HA7300", "M4841", "M4872", "M4171", "M6242", "Manual Socket"};
 		
 		JComboBox peripheralsCB = new JComboBox(peripherals);
-		peripheralsCB.setBounds(70, 43, 354, 22);
+		peripheralsCB.setBounds(94, 43, 330, 22);
 		contentPanel.add(peripheralsCB);
 		
 		JLabel lblDescription = new JLabel("Description:");

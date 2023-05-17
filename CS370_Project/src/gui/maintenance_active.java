@@ -73,10 +73,17 @@ public class maintenance_active extends JDialog {
   			String status = rsMaintLog.getString("status");
   			String submit = rsMaintLog.getString("submitted_time");
   			
-  			
   			table.addRow(new Object[] {id, tester, peripheral, status, submit});
   		}
 
+		ResultSet rsWO = s.executeQuery("SELECT MAX(wo_id) AS maxWO FROM labmap.maintenance");
+		
+		rsWO.next();
+		
+		int maxWO = rsWO.getInt("maxWO"); //Grabs next work order number
+		
+		c.close(); //Close connection
+		
 		JScrollPane pg = new JScrollPane(jtbl);
 		pg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		pg.setPreferredSize(new Dimension(580,218));
@@ -102,18 +109,18 @@ public class maintenance_active extends JDialog {
 				btnViewWorkOrder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
-							String woID = woTextField.getText();
-							maintenance modify_request = new maintenance();
-							try {
-								//modify_request.modify_request(woID);
-								dispose();
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+							String woIDString = woTextField.getText();
+							int woID = Integer.parseInt(woIDString); 
+							if (woID > maxWO || woID < 0) {
+								JOptionPane.showMessageDialog(null, "This work order does not exist!");
+							}
+							else {
+								maintenance_modify modWindow = new maintenance_modify(woID);
+								modWindow.setVisible(true);
 							}
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Please input valid integer!");
 						}
 					}
 				});
