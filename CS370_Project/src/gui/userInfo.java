@@ -38,15 +38,16 @@ public class userInfo extends JFrame {
 	}
 
 	private void initialize() {
+		
 		JLabel usernameLbl = new JLabel("Username:");
 		usernameLbl.setFont(new Font("Calibri", Font.PLAIN, 12));
 		usernameLbl.setBounds(10, 22, 67, 36);
 		getContentPane().add(usernameLbl);
 		
-		JLabel projectLbl = new JLabel("Project:");
-		projectLbl.setFont(new Font("Calibri", Font.PLAIN, 12));
-		projectLbl.setBounds(10, 170, 67, 36);
-		getContentPane().add(projectLbl);
+		//JLabel projectLbl = new JLabel("Project:");
+		//projectLbl.setFont(new Font("Calibri", Font.PLAIN, 12));
+		//projectLbl.setBounds(10, 170, 67, 36);
+		//getContentPane().add(projectLbl);
 		
 		JLabel roleLbl = new JLabel("Role:");
 		roleLbl.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -57,9 +58,11 @@ public class userInfo extends JFrame {
 		usernameTextField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		usernameTextField.setEditable(false);
 		usernameTextField.setBackground(new Color(221, 229, 237));
-		usernameTextField.setBounds(72, 20, 131, 36);
+		usernameTextField.setBounds(72, 23, 131, 36);
 		getContentPane().add(usernameTextField);
 		usernameTextField.setColumns(10);
+		String username = login_page.user_name;
+		usernameTextField.setText(username);
 		usernameTextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		
 		roleTextField = new JTextField();
@@ -69,8 +72,11 @@ public class userInfo extends JFrame {
 		roleTextField.setBounds(42, 69, 131, 37);
 		getContentPane().add(roleTextField);
 		roleTextField.setColumns(10);
+		String role = login_page.role;
+		roleTextField.setText(role);
 		roleTextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		
+		/*
 		projectTextField = new JTextField();
 		projectTextField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		projectTextField.setBackground(new Color(221, 229, 237));
@@ -79,6 +85,7 @@ public class userInfo extends JFrame {
 		getContentPane().add(projectTextField);
 		projectTextField.setColumns(10);
 		projectTextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		*/
 		
 		idLabel = new JLabel("ID:");
 		idLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -93,5 +100,7 @@ public class userInfo extends JFrame {
 		getContentPane().add(idTextField);
 		idTextField.setColumns(10);
 		idTextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		String badge = String.valueOf(login_page.badge_id);
+		idTextField.setText(badge);
 	}
 }

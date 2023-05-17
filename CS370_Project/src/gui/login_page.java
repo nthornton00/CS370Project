@@ -24,6 +24,8 @@ public class login_page {
 	private static JTextField usernameField;
 	private static JPasswordField passwordField;
 	public static int badge_id = 0;
+	public static String user_name = "";
+	public static String role = "";
 	public static String region = "";
 
 	/**
@@ -162,7 +164,9 @@ public class login_page {
             	badge_id = rs.getInt("badge_ID");
             	// Retrieve region of employee who just logged in
             	region = rs.getString("region");
-                
+            	user_name = rs.getString("login_id");
+            	role = rs.getString("role");
+              
                 System.out.println(region);
                 
             	//Close login window
