@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Details.establish_connection;
+import helpWindow.helpWindow;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
@@ -260,6 +262,19 @@ public class main_menu extends JFrame {
 		
 		JMenuItem menuItemAbout = new JMenuItem("About");
 		menuAbout.add(menuItemAbout);
+		
+		menuItemAbout.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					helpWindow mainWindow = new helpWindow();
+			        mainWindow.MainWindow();
+			        mainWindow.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		while(rsTester.previous()) { //Utilizing same result list, go backwards to place all testers
 			if (rsTester.getString("region").equals(region)) {
