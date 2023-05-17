@@ -98,12 +98,23 @@ public class main_menu extends JFrame {
 		menuBar.setBounds(0, 0, maxX + 109, 22);
 		contentPane.add(menuBar);
 		
-		
 		JMenu menuAccount = new JMenu("Account");
 		menuBar.add(menuAccount);
 		
 		JMenuItem menuItemUserInfo = new JMenuItem("User Info");
 		menuAccount.add(menuItemUserInfo);
+		
+		menuItemUserInfo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ev) {
+				try {
+					userInfo window = new userInfo();
+					window.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		});
 		
 		JMenuItem menuItemLogout = new JMenuItem("Logout");
 		menuAccount.add(menuItemLogout);
@@ -266,16 +277,16 @@ public class main_menu extends JFrame {
 		menuItemAbout.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent ev) {
 				try {
-					helpWindow mainWindow = new helpWindow();
-			        mainWindow.MainWindow();
-			        mainWindow.setVisible(true);
+					helpWindow help = new helpWindow();
+			        help.MainWindow();
+			        help.setVisible(true);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    }
 		});
-		
+			
 		while(rsTester.previous()) { //Utilizing same result list, go backwards to place all testers
 			if (rsTester.getString("region").equals(region)) {
 				String tester_name = rsTester.getString("tester_name");
