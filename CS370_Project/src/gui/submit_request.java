@@ -86,6 +86,8 @@ public class submit_request extends JDialog {
 		JTextArea descriptionTextField = new JTextArea();
 		descriptionTextField.setBounds(10, 95, 414, 122);
 		contentPanel.add(descriptionTextField);
+		descriptionTextField.setLineWrap(true);
+		descriptionTextField.setWrapStyleWord(true);
 		
 		{
 			JPanel buttonPane = new JPanel();
